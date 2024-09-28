@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Home - Open PRO",
-  description: "Page description",
+  title: "Stunity",
+  description: "Empowering ASU Students with AI-driven Solutions",
 };
 
 import PageIllustration from "@/components/page-illustration";
