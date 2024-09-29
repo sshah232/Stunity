@@ -7,5 +7,6 @@
 @import "tailwindcss/utilities";
 
 body {
-    background-color: #708090;
+    background-color: darkslategray;
+    /* #708090 */
 }  

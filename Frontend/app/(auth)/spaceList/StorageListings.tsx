@@ -17,7 +17,7 @@ const sampleSpaces = [
     size: "200 sq ft",
     price: "$150/month",
     image: "/images/dummy.png",
-    coordinates: [40.73061, -73.935242] as LatLngExpression, // Ensure proper type
+    coordinates: [33.421779751749206, -111.92139249303236] as LatLngExpression, // Ensure proper type
     category: "parking", // New category field
   },
   {
@@ -72,11 +72,12 @@ export default function StorageListings() {
       <div className="py-12 md:py-20">
         {/* Section header */}
         <div className="mx-auto max-w-3xl pb-12 text-center">
-          <h2 className="text-3xl font-semibold text-gray-800">
-            Browse Spaces
+          <h2 className="text-4xl font-semibold text-white-800" style={{ color:  "beige", paddingBottom: "20px" }}>
+
+            browse spaces
           </h2>
-          <p className="text-lg text-gray-600">
-            Find the perfect storage or parking space for your needs.
+          <p className="text-sm text-white-400">
+            find the perfect storage or parking space for your needs.
           </p>
         </div>
 
@@ -157,7 +158,7 @@ export default function StorageListings() {
           {/* Map Container */}
           <div className="order-2 lg:order-1">
             <MapContainer
-              center={[40.712776, -74.005974]}
+              center={[33.4230, -111.9278]}
               zoom={13}
               style={{ height: "400px" }}
             >
