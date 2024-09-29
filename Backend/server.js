@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // Ensure cors is imported
 const { Pool } = require('pg');
 
 // Initialize express app
 const app = express();
+app.use(cors()); // Enable CORS
+app.use(bodyParser.json()); // Middleware to parse JSON data from requests
 
 const pool = new Pool({
     user: 'postgres',               // Your PostgreSQL username
@@ -13,6 +16,7 @@ const pool = new Pool({
     port: 5432,                     // Default PostgreSQL port
 });
 
+// Create table if it doesn't exist
 const createTable = async () => {
     const query = `
         CREATE TABLE IF NOT EXISTS login (
@@ -24,26 +28,23 @@ const createTable = async () => {
     await pool.query(query);
 };
 
-// Middleware to parse JSON data from requests
-app.use(bodyParser.json()); 
-
-// Define a POST route for handling form submissions from the frontend
+// Define a POST route for handling user registration
 app.post('/register', async (req, res) => {
-    const { name, password } = req.body;
+    const { username, password } = req.body;
 
     try {
         // Insert user data into the PostgreSQL database
-        const result = await pool.query(
+        await pool.query(
             'INSERT INTO login (username, password) VALUES ($1, $2)',
-            [name, password]
+            [username, password]
         );
 
-        console.log('Registered User:', name);
+        console.log('Registered User:', username);
         
         // Respond to the frontend
         res.json({
             message: 'Registered user successfully',
-            data: { name },
+            data: { username },
         });
         
     } catch (error) {
@@ -52,35 +53,42 @@ app.post('/register', async (req, res) => {
     }
 });
 
+// Define a POST route for handling user login
 app.post('/login', async (req, res) => {
-    const { name, password } = req.body;
+    const { username, password } = req.body;
 
     try {
         const result = await pool.query(
             'SELECT password FROM login WHERE username = $1',
-            [name]
+            [username]
         );
 
-        if (result.rows.length > 0 && password === result.rows[0]['password']) {
+        // Check if user exists
+        if (result.rows.length === 0) {
+            return res.json({ message: 'User does not exist' });
+        }
+
+        // Check if the password matches
+        if (password === result.rows[0]['password']) {
             res.json({
                 message: 'User login successful',
-                data: { name },
+                data: { username },
             });
         } else {
+          console.log("wait no way")
             res.status(401).json({
-                message: 'Incorrect Password or User does not exist'
+                message: 'Incorrect Password'
             });
         }
 
     } catch (error) {
         console.error('Database error:', error);
-        res.status(500).json({ message: 'User does not exist' });
+        res.status(500).json({ message: 'An error occurred during login' });
     }
 });
 
 // Start the backend server
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, async () => {
-    console.log(`Backend server is running on http://localhost:${PORT}`);
+app.listen(8000, async () => {
+    console.log('Backend server is running on http://localhost:8000');
     await createTable();
 });
