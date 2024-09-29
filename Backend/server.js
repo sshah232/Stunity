@@ -48,8 +48,7 @@ app.post('/register', async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Database error:', error);
-        res.status(500).json({ message: 'User already registered, please login' });
+        res.json({ message: 'User already registered, please login' });
     }
 });
 
@@ -72,11 +71,10 @@ app.post('/login', async (req, res) => {
         if (password === result.rows[0]['password']) {
             res.json({
                 message: 'User login successful',
-                data: { username },
+                username: { username },
             });
         } else {
-          console.log("wait no way")
-            res.status(401).json({
+            res.json({
                 message: 'Incorrect Password'
             });
         }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useRouter } from 'next/navigation';
@@ -39,13 +39,20 @@ export default function SignIn() {
       }
     }).then((res) => {
       console.log(res.data);
-      setValidUser(true);
+      if (res.data.username){
+        setValidUser(true);
+      }
       setMessages(res.data.message)
     })
     .catch((ex) => {
       setValidUser(false);
     });
   };
+  useEffect(() => {
+    if (validUser) {
+      router.push('/'); // Navigate to home or other route
+    }
+  });
 
   return (
     <section>
@@ -106,10 +113,6 @@ export default function SignIn() {
                 Sign In
               </button>
             </div>
-            {validUser ? (
-                router.push('/')
-                    ) : null
-                    }<br/>
             {messages ? (
                 <div>{messages}</div>
                     ) : null
