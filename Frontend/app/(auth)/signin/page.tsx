@@ -15,16 +15,16 @@ export default function SignIn() {
   const [validUser, setValidUser] = useState(false);
   const [messages, setMessages] = useState('');
 
-  const usernameInput = (event) => {
+  const usernameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
 
-  const passwordInput = (event) => {
+  const passwordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
   
-  const Login = (event) => {
+  const Login = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     axios({
       method: "post",
