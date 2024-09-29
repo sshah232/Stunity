@@ -24,7 +24,7 @@ export default function SignIn() {
   };
 
   
-  const Login = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const Login = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     axios({
       method: "post",
