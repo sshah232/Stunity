@@ -3,10 +3,13 @@
 import { useState } from 'react';
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 
 import Link from "next/link";
 
 export default function SignIn() {
+  const router = useRouter();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [validUser, setValidUser] = useState(false);
@@ -104,7 +107,7 @@ export default function SignIn() {
               </button>
             </div>
             {validUser ? (
-                <Link href="/spaceList" />
+                router.push('/')
                     ) : null
                     }<br/>
             {messages ? (
